@@ -1,7 +1,6 @@
 let todosPedidos = [];
 let filtroAtual = 'pendente';
 
-// Verifica se é admin antes de carregar
 fetch("/me", { credentials: "include" })
   .then(res => {
     if (!res.ok) {
@@ -16,11 +15,9 @@ fetch("/me", { credentials: "include" })
       window.location.href = "index.html";
       return;
     }
-    carregarPedidos();
+    carregarDashboard();
   });
 
-
-// ─── ABAS PRINCIPAIS ────────────────────────────────────
 
 function mostrarAba(aba, btn) {
   document.querySelectorAll('.aba').forEach(el => el.style.display = 'none');
@@ -30,10 +27,44 @@ function mostrarAba(aba, btn) {
   btn.classList.add('active');
 
   if (aba === 'produtos') carregarProdutosAdmin();
+  if (aba === 'pedidos') carregarPedidos();
+  if (aba === 'dashboard') carregarDashboard();
 }
 
 
-// ─── PEDIDOS ─────────────────────────────────────────────
+function carregarDashboard() {
+  fetch("/admin/dashboard", { credentials: "include" })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("dash-total-pedidos").innerText = data.total_pedidos;
+      document.getElementById("dash-faturamento").innerText = `R$ ${Number(data.faturamento_total).toFixed(2)}`;
+      document.getElementById("dash-pendentes").innerText = data.pendentes;
+      document.getElementById("dash-confirmados").innerText = data.confirmados;
+      document.getElementById("dash-entregues").innerText = data.entregues;
+
+      const listaEstoque = document.getElementById("lista-estoque-baixo");
+
+      if (data.estoque_baixo.length === 0) {
+        listaEstoque.innerHTML = `<p style="color:#999;">Nenhum produto com estoque baixo</p>`;
+        return;
+      }
+
+      listaEstoque.innerHTML = "";
+      data.estoque_baixo.forEach(produto => {
+        const div = document.createElement("div");
+        div.classList.add("estoque-item");
+        div.innerHTML = `
+          <span>${produto.nome_prod}</span>
+          <span class="estoque-qtd ${produto.estoque === 0 ? 'estoque-zero' : 'estoque-baixo-qtd'}">
+            ${produto.estoque === 0 ? 'Sem estoque' : `${produto.estoque} restantes`}
+          </span>
+        `;
+        listaEstoque.appendChild(div);
+      });
+    })
+    .catch(err => console.error(err));
+}
+
 
 function carregarPedidos() {
   fetch("/admin/pedidos", { credentials: "include" })
@@ -136,8 +167,6 @@ function atualizarStatus(id) {
     .catch(() => alert("Erro ao atualizar status"));
 }
 
-
-// ─── PRODUTOS ────────────────────────────────────────────
 
 function carregarProdutosAdmin() {
   fetch("/admin/produtos", { credentials: "include" })

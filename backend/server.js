@@ -5,19 +5,17 @@ const cors = require('cors');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const rateLimit = require('express-rate-limit');
-
 const app = express();
 
-app.use(express.static(path.join(__dirname, '../')));
 
+app.use(express.static(path.join(__dirname, '../')));
 app.use(cors({
   origin: ['http://localhost:5500', 'http://127.0.0.1:5500'],
   credentials: true
 }));
-
 app.use(express.json());
 
-// Rate limiting
+
 const limiterGeral = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,

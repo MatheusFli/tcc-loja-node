@@ -28,9 +28,11 @@
   <div class="admin-container">
     <h1>Painel Administrativo</h1>
 
-    <!-- Abas principais -->
     <div class="admin-tabs">
-      <button class="tab-btn active" onclick="mostrarAba('pedidos', this)">
+      <button class="tab-btn active" onclick="mostrarAba('dashboard', this)">
+        <i class="bi bi-speedometer2"></i> Dashboard
+      </button>
+      <button class="tab-btn" onclick="mostrarAba('pedidos', this)">
         <i class="bi bi-receipt"></i> Pedidos
       </button>
       <button class="tab-btn" onclick="mostrarAba('produtos', this)">
@@ -38,10 +40,54 @@
       </button>
     </div>
 
-    <!-- Aba Pedidos -->
-    <div id="aba-pedidos" class="aba">
+    <!-- Aba Dashboard -->
+    <div id="aba-dashboard" class="aba">
+      <div class="dashboard-grid">
+        <div class="dash-card">
+          <i class="bi bi-receipt"></i>
+          <div>
+            <span class="dash-label">Total de Pedidos</span>
+            <span class="dash-valor" id="dash-total-pedidos">—</span>
+          </div>
+        </div>
+        <div class="dash-card">
+          <i class="bi bi-cash-stack"></i>
+          <div>
+            <span class="dash-label">Faturamento Total</span>
+            <span class="dash-valor" id="dash-faturamento">—</span>
+          </div>
+        </div>
+        <div class="dash-card dash-pendente">
+          <i class="bi bi-clock"></i>
+          <div>
+            <span class="dash-label">Pendentes</span>
+            <span class="dash-valor" id="dash-pendentes">—</span>
+          </div>
+        </div>
+        <div class="dash-card dash-confirmado">
+          <i class="bi bi-check-circle"></i>
+          <div>
+            <span class="dash-label">Confirmados</span>
+            <span class="dash-valor" id="dash-confirmados">—</span>
+          </div>
+        </div>
+        <div class="dash-card dash-entregue">
+          <i class="bi bi-bag-check"></i>
+          <div>
+            <span class="dash-label">Entregues</span>
+            <span class="dash-valor" id="dash-entregues">—</span>
+          </div>
+        </div>
+      </div>
 
-      <!-- Sub abas de status -->
+      <div class="estoque-baixo">
+        <h2><i class="bi bi-exclamation-triangle"></i> Estoque Baixo</h2>
+        <div id="lista-estoque-baixo"></div>
+      </div>
+    </div>
+
+    <!-- Aba Pedidos -->
+    <div id="aba-pedidos" class="aba" style="display:none;">
       <div class="sub-tabs">
         <button class="sub-tab-btn active" onclick="filtrarPedidos('pendente', this)">
           <i class="bi bi-clock"></i> Pendentes
@@ -53,13 +99,11 @@
           <i class="bi bi-bag-check"></i> Entregue
         </button>
       </div>
-
       <div id="lista-pedidos"></div>
     </div>
 
     <!-- Aba Produtos -->
     <div id="aba-produtos" class="aba" style="display:none;">
-
       <div class="produto-form">
         <h2>Novo Produto</h2>
         <div class="input-group">

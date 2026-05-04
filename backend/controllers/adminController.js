@@ -128,3 +128,46 @@ exports.toggleAtivoProduto = (req, res) => {
     }
   );
 };
+
+
+exports.getDashboard = (req, res) => {
+  const sqlPedidos = `
+    SELECT 
+      COUNT(*) AS total_pedidos,
+      SUM(total) AS faturamento_total,
+      SUM(CASE WHEN status = 'pendente' THEN 1 ELSE 0 END) AS pendentes,
+      SUM(CASE WHEN status = 'confirmado' THEN 1 ELSE 0 END) AS confirmados,
+      SUM(CASE WHEN status = 'entregue' THEN 1 ELSE 0 END) AS entregues
+    FROM pedido
+  `;
+
+  const sqlEstoqueBaixo = `
+    SELECT nome_prod, estoque 
+    FROM produto 
+    WHERE estoque <= 5 AND ativo = 1
+    ORDER BY estoque ASC
+  `;
+
+  db.query(sqlPedidos, (err, pedidosResult) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Erro ao buscar dados do dashboard' });
+    }
+
+    db.query(sqlEstoqueBaixo, (err, estoqueResult) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Erro ao buscar estoque' });
+      }
+
+      res.json({
+        total_pedidos: pedidosResult[0].total_pedidos,
+        faturamento_total: pedidosResult[0].faturamento_total || 0,
+        pendentes: pedidosResult[0].pendentes,
+        confirmados: pedidosResult[0].confirmados,
+        entregues: pedidosResult[0].entregues,
+        estoque_baixo: estoqueResult
+      });
+    });
+  });
+};
