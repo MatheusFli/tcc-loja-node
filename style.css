@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
 @font-face {
   font-family: 'Vartigo';
   src: url('./fonts/Vartigo.ttf') format('truetype');
@@ -1010,3 +1012,66 @@ footer {
 .grafico-container canvas {
   max-height: 280px;
 }
+
+
+
+@media (max-width: 600px) {
+  header {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .logotipo {
+    font-size: 28px;
+    flex: none;
+    padding: 5px;
+  }
+
+  .nav-p {
+    order: 3;
+    flex: 100%;
+    justify-content: center;
+    padding: 5px 0;
+  }
+
+  .nav-s {
+    flex: none;
+    justify-content: flex-end;
+  }
+
+  .nav-links li {
+    padding: 0 10px;
+  }
+
+  .icon {
+    margin-right: 5px;
+  }
+
+  .search-input {
+    width: 90%;
+  }
+
+   .container {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .login_container, .cadastro_container {
+    width: 90%;
+    margin: 40px auto;
+  }
+
+   .conteudo_principal h1 {
+    font-size: 50px;
+  }
+
+    .admin-container, .pedidos-container, .carrinho-container {
+    margin: 20px auto;
+    padding: 10px;
+  }
+}
+
+
