@@ -1,17 +1,5 @@
-require('dotenv').config({ path: __dirname + '/.env' });
-console.log('EMAIL_USER:', process.env.EMAIL_USER);
-console.log('EMAIL_PASS:', process.env.EMAIL_PASS);
-const nodemailer = require('nodemailer');
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function enviarConfirmacaoPedido(emailCliente, nomeCliente, pedido) {
   const itensHTML = pedido.itens.map(item => `
@@ -22,15 +10,14 @@ async function enviarConfirmacaoPedido(emailCliente, nomeCliente, pedido) {
     </tr>
   `).join('');
 
-  await transporter.sendMail({
-    from: `"Amor Doce" <${process.env.EMAIL_USER}>`,
+  await resend.emails.send({
+    from: 'Amor Doce <onboarding@resend.dev>',
     to: emailCliente,
     subject: `Pedido #${pedido.id_pedido} recebido!`,
     html: `
-      <div style="font-family: Poppins, sans-serif; max-width: 600px; margin: auto;">
+      <div style="font-family: sans-serif; max-width: 600px; margin: auto;">
         <h2 style="color: #c0392b;">Amor Doce</h2>
         <p>Olá, <strong>${nomeCliente}</strong>! Seu pedido foi recebido com sucesso.</p>
-
         <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
           <thead>
             <tr style="background: #f9f9f9;">
@@ -41,14 +28,10 @@ async function enviarConfirmacaoPedido(emailCliente, nomeCliente, pedido) {
           </thead>
           <tbody>${itensHTML}</tbody>
         </table>
-
-        <p style="font-size: 16px;">
-          <strong>Total: R$ ${Number(pedido.total).toFixed(2)}</strong>
-        </p>
-
+        <p><strong>Total: R$ ${Number(pedido.total).toFixed(2)}</strong></p>
         <p style="color: #888; font-size: 13px;">
           Status atual: <strong>${pedido.status}</strong><br>
-          Entraremos em contato em breve para confirmar seu pedido.
+          Entraremos em contato em breve.
         </p>
       </div>
     `
