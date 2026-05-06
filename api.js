@@ -1,1 +1,1 @@
-const API_URL = "https://tcc-loja-node-production.up.railway.app";
+var API_URL = "https://tcc-loja-node-production.up.railway.app";
