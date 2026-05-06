@@ -7,18 +7,25 @@ const MySQLStore = require('express-mysql-session')(session);
 const rateLimit = require('express-rate-limit');
 const app = express();
 
+app.set('trust proxy', 1);
 
-app.use(express.static(path.join(__dirname, '../')));
+app.use(express.static(path.join(__dirname), { index: false }));
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'index.html'));})
 
 
 app.use(cors({
-  origin: ['http://localhost:5500', 'http://127.0.0.1:5500', 'https://tcc-loja-node.vercel.app', 'http://localhost:3000'],
+  origin: [
+    'http://localhost:5500',
+    'http://127.0.0.1:5500',
+    'https://tcc-loja-node.vercel.app',
+    'http://localhost:3000',
+    'https://tcc-loja-node-production.up.railway.app'
+  ],
   credentials: true
 }));
 
-
 app.use(express.json());
-
 
 const limiterGeral = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -42,13 +49,7 @@ const sessionStore = new MySQLStore({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
-
-
-  ssl: {
-    rejectUnauthorized: false
-  },
-
-
+  ssl: { rejectUnauthorized: false },
   connectTimeout: 10000
 });
 
@@ -75,6 +76,11 @@ app.use('/produtos', produtoRoutes);
 app.use('/pedido', pedidoRoutes);
 app.use('/', adminRoutes);
 
-app.listen(3000, () => {
-  console.log('Rodando em http://localhost:3000');
+app.get('/{*path}', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'index.html'));
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Rodando em http://localhost:${PORT}`);
 });
