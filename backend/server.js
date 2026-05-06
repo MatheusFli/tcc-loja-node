@@ -9,12 +9,10 @@ const app = express();
 
 app.set('trust proxy', 1);
 
-app.use(express.static(path.join(__dirname, '..')));
-console.log('Servindo estáticos de:', path.join(__dirname, '..'));
-console.log('__dirname:', __dirname);
-console.log('Servindo estáticos de:', path.join(__dirname, '..'));
+app.use(express.static(path.join(__dirname)));
 const fs = require('fs');
-console.log('Arquivos na raiz:', fs.readdirSync(path.join(__dirname, '..')));
+console.log('Arquivos em /app:', fs.readdirSync('/app'));
+
 
 app.use(cors({
   origin: [
@@ -79,7 +77,7 @@ app.use('/pedido', pedidoRoutes);
 app.use('/', adminRoutes);
 
 app.get('/{*path}', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'index.html'));
+  res.sendFile(path.resolve(__dirname, 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
