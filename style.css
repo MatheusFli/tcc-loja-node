@@ -51,7 +51,7 @@ header {
   display: flex;
   align-items: center;
   padding: 10px;
-  background: #630000;
+  background: #ad0202;
 }
 
 /* .logotipo{
@@ -135,7 +135,7 @@ margin-right: 20px;
   background-size: cover;        /* faz a imagem cobrir toda a área */
   background-position: center;   /* centraliza a imagem */
   background-repeat: no-repeat;  /* evita repetir */
-  height: 400px;
+  height: 500px;
 }
 
 .conteudo_principal h1 {
@@ -337,6 +337,7 @@ margin-right: 20px;
   border-color: red;
 }
 
+
 .btn-login {
   width: 100%;
   padding: 10px;
@@ -481,29 +482,25 @@ footer {
   border-color: #ddd;
 }
 
+
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 280px));
-  gap: 25px;
-  padding: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 400px));
+  justify-content: center;
+  gap: 40px;
+  padding: 30px;
 }
 
 
 .produto-card {
-  background: #ffffff;
+  background: #af2c2c23;
   border-radius: 16px;
   padding: 20px;
   transition: 0.25s ease;
-  border: 1px solid #f0f0f0;
 }
-
-.produto-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
-
 
 .nome-produto h3 {
+  color: rgb(0, 0, 0);
   font-size: 23px;
   font-weight: 600;
   margin-bottom: 15px;
@@ -523,8 +520,7 @@ footer {
   cursor: pointer;
   font-size: 12px;
 
-
-    display: flex;
+  display: flex;
   align-items: center;
   gap: 10px;
 }
@@ -544,7 +540,7 @@ footer {
 
 .resumo button {
   background: #d62828;
-  color: white;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 12px 18px;
   border-radius: 8px;
@@ -560,7 +556,7 @@ footer {
 .preco {
   font-size: 15px;
   font-weight: 700;
-  color: #d62828;
+  color: #000000;
 }
 
 .produto-botao {
@@ -572,7 +568,7 @@ footer {
   padding: 12px;
   border: none;
   border-radius: 10px;
-  background: linear-gradient(135deg, #d62828, #f77f00);
+  background: #ac0000;
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -580,29 +576,32 @@ footer {
 }
 
 .produto-botao button:hover {
+  transform: scale(1.03);
   opacity: 0.9;
 }
 
-.search-input {
-  background-color: #c0392b;
-  display: block;
-  margin: 30px auto 10px;
-  width: 50%;
-  padding: 12px 20px;
-  border-radius: 15px;
-  border: 1px solid #ddd;
-  font-size: 15px;
-  outline: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+.search-input{
+    width: 85%;
+    max-width: 75rem;
+    height: 55px;
+    background-color: #af2c2c23;
+    border-radius: 10px;
+    margin: 0 auto 50px auto; /* centraliza */
+    display: block;
+    padding-left: 25px;
+
+    border: none;
+    outline: none;
 }
 
+
 .search-input::placeholder{
-  color: white;
+  color: rgb(119, 0, 0);
 }
 
 .descricao-produto {
   font-size: 13px;
-  color: #888;
+  color: #000000;
   margin: 6px 0 12px;
 }
 
@@ -1064,9 +1063,6 @@ footer {
     margin-right: 5px;
   }
 
-  .search-input {
-    width: 90%;
-  }
 
    .container {
     grid-template-columns: 1fr;
@@ -1086,9 +1082,57 @@ footer {
   }
 
     .admin-container, .pedidos-container, .carrinho-container {
-    margin: 20px auto;
+    margin: 50px auto;
     padding: 10px;
   }
+}
+
+.propaganda{
+    background-color: #ddc59440;
+
+    width: 100%;
+    max-width: 75rem;
+
+    min-height: 320px;
+
+    margin: 40px auto;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+
+    padding: 35px 60px;
+
+    border-radius: 30px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+
+    box-sizing: border-box;
+}
+
+.propaganda img{
+    width: 290px;
+
+    max-width: 100%;
+
+    margin-right: 2%;
+
+    border-radius: 3%;
+
+    object-fit: contain;
+}
+
+#texto-propaganda{
+    font-family: 'BebasNeue';
+
+    font-size:4rem;
+
+    line-height:0.95;
+
+    margin-bottom:20px;
+
+    color:#2b2929;
 }
 
 
