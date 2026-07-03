@@ -51,7 +51,7 @@ header {
   display: flex;
   align-items: center;
   padding: 10px;
-  background: #ad0202;
+  background: #f3e9dc;
 }
 
 /* .logotipo{
@@ -68,7 +68,7 @@ header {
   font-family: 'Vartigo';
   font-size: 50px;
   padding: 10px;
-  color: white;
+  color: rgb(0, 0, 0);
   flex: 1;
 }
 
@@ -85,7 +85,8 @@ header {
 }
 
 .nav-links a{
-  color: white;
+  color: rgb(0, 0, 0);
+  font-weight: bolder;
 }
 
 .nav-links {
@@ -101,7 +102,7 @@ header {
 }
 
 .nav-links li a:hover {
-  color: white;
+  color: rgb(90, 90, 90);
 }
 
 .icon {
@@ -112,7 +113,6 @@ margin-right: 20px;
 
 
 .icon:hover {
-  background-color: #9d000083;
   transition: 0.2s;
   cursor: pointer;
 }
@@ -135,7 +135,7 @@ margin-right: 20px;
   background-size: cover;
   background-position: center;   
   background-repeat: no-repeat;  
-  height: 350px; 
+  height: 300px; 
 }
 
 .conteudo_principal h1 {
@@ -201,24 +201,64 @@ margin-right: 20px;
 }
 
 .secao {
+  display: flex;
+  flex-direction: column;    /* Alinha o H3 e o P um embaixo do outro */
+  justify-content: center;   /* Centraliza o conteúdo VERTICALMENTE */
+  align-items: center;
   text-align: center;
   padding: 50px 5px;
-  padding-bottom: 50px;
+  padding-bottom: 80px;
 
+    overflow-x: hidden;
+    position: relative;
+    min-height: 70vh;
+    margin: 0;
+    padding: 0;
 }
 
-.secao h2 {
-  font-family: 'BebasNeue';
-  font-size: 40px;
-  color: #48211b;
-  margin-bottom: 35px;
+.secao::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    
+    /* Mistura dos gradientes radiais originais adaptados para o fundo claro */
+    background: 
+        radial-gradient(circle at 50% 40%, rgba(245, 79, 79, 0.16) 0%, transparent 50%),
+        radial-gradient(circle at 30% 50%, rgba(253, 56, 56, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 70% 35%, rgba(255, 118, 118, 0.14) 0%, transparent 40%);
+    
+    background-size: 200% 200%;
+    animation: moverAuraLogin 15s ease infinite;
 }
 
-.secao h3{
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes moverAuraLogin {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
-.cards {
+
+.secao p {
+  font-family: 'Poppins';
+  max-width: 800px;     
+  margin: 0 auto;        
+  text-align: left;     
+  font-size: 25px;      
+  line-height: 1.4;
+  color: #2d4914;
+}
+
+/* .cards {
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -299,19 +339,50 @@ margin-right: 20px;
   padding: 15px 17px;
   border-radius: 50%;
 }
-
+ */
 
 .body-login{
   justify-content: center;
   align-items: center;
   min-width: 100vh;
-  background-image: url(img/verdebrilhos.jpg);
+//* background-image: linear-gradient(to left, #bd1c32, #d80420, #a71e30);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-color: #eddbc3;
+  background-color: #eddbc3;  */
 }
+
+.body-login {
+    background-color: #ffffff2b;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+
+.body-login {
+    background-color: #910000; /* Cor de segurança caso o gradiente falhe */
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+
+    background-image: 
+        /* brilho de baixo/meio */
+        radial-gradient(circle at 50% 100%, #d70000a9 0%, transparent 60%),
+        /* transiçao das cor */
+        radial-gradient(circle at 50% 50%, #c70303 0%, transparent 75%),
+        /* lateral superior */
+        linear-gradient(135deg, #ffa9a9 0%, #ffa6a6 100%);
+        
+    background-attachment: fixed; 
+}
+
+
 
 .login_container {
   margin: 150px auto; 
@@ -393,12 +464,31 @@ margin-right: 20px;
   justify-content: center;
   align-items: center;
   min-width: 100vh;
-  background-image: url(img/verdebrilhos.jpg);
+  /* background-image: url(img/fundolc.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-color: #eddbc3;
+  background-color: #eddbc3; */
+}
+
+.body-cadastro {
+    background-color: #910000; /* Cor de segurança caso o gradiente falhe */
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+
+    background-image: 
+        /* brilho de baixo/meio */
+        radial-gradient(circle at 50% 100%, #d70000a9 0%, transparent 60%),
+        /* transiçao das cor */
+        radial-gradient(circle at 50% 50%, #c70303 0%, transparent 75%),
+        /* lateral superior */
+        linear-gradient(135deg, #ffa9a9 0%, #ffa6a6 100%);
+        
+    background-attachment: fixed; 
 }
 
 .cadastro_container {
@@ -406,11 +496,11 @@ margin-right: 20px;
   width: 400px;
   text-align: center;
   background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   color: #ffffff;
   border-radius: 10px;
-  padding: 50px 40px;
+  padding: 30px 40px;
 }
 
 .cadastro_container h2 {
@@ -437,6 +527,7 @@ html, body {
 
 .cta h2 {
   font-family: 'BebasNeue';
+  color: #fff;
   font-size: 60px;
   margin-bottom: 10px;
 }
@@ -509,8 +600,9 @@ footer {
 }
 
 .carrinho-container h1{
-  font-family: Arial, Helvetica, sans-serif;
-  color: #000;
+  font-family: 'BebasNeue';
+  font-size: 50px;
+  color: #c0392b;
 }
 
 .lista-carrinho {
@@ -543,10 +635,14 @@ footer {
   padding: 30px;
 }
 
+.body-cardapio{
+  background-color: #f8f0e694;
+}
+
 
 .produto-card {
-  background: #edd8c391;
-  border-radius: 16px;
+  background: #f1eeea91;
+  border-radius: 5px;
   padding: 20px;
   transition: 0.25s ease;
 }
@@ -620,7 +716,7 @@ footer {
   padding: 12px;
   border: none;
   border-radius: 10px;
-  background: #0DA35E;
+  background: #0da35d8f;
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -633,11 +729,11 @@ footer {
 }
 
 .search-input{
-    width: 85%;
-    max-width: 75rem;
+    width: 100%;
+    max-width: 70rem;
     height: 55px;
     background-color: #e4e4e4;
-    border-radius: 10px;
+    border-radius: 20px;
     margin: 0 auto 50px auto; /* centraliza */
     display: block;
     padding-left: 25px;
@@ -648,7 +744,7 @@ footer {
 
 
 .search-input::placeholder{
-  color: rgb(119, 0, 0);
+  color: rgba(201, 2, 2, 0.82);
 }
 
 .descricao-produto {
@@ -705,6 +801,9 @@ footer {
   color: white;
 }
 
+.body-pedido{
+  background-color: #f8f0e694;
+}
 
 .pedidos-container {
   max-width: 800px;
@@ -715,12 +814,14 @@ footer {
 .pedidos-container h1 {
   margin-bottom: 30px;
   color: #c0392b;
+  font-family: 'BebasNeue';
+  font-size: 50px;
 }
 
 .pedido-card {
   background: #fff;
   border-radius: 12px;
-  border: 1px solid #eee;
+  border: 1px;
   padding: 20px;
   margin-bottom: 20px;
 }
@@ -1140,10 +1241,10 @@ footer {
 }
 
 .propaganda{
-    background-color: #edddbe;
+    background-color: #bb0404;
 
     width: 100%;
-    max-width: 75rem;
+    max-width: 90rem;
 
     min-height: 320px;
 
@@ -1184,27 +1285,42 @@ footer {
 
     margin-bottom:20px;
 
-    color:#2b2929;
+    color:#f9f9f9;
 }
 
-.conteudo-sobre{
+.body-sobrenos{
+  justify-content: center;
+  align-items: center;
+}
+
+.topo-sobre{
   text-align: center;
   padding: 50px 20px;
   background-color: #edebdd;
-  background: url(img/aboutus.png);
+  background: url(img/cookiessobre.png);
   background-size: cover;
   background-position: center;   
   background-repeat: no-repeat;  
-  height: 730px;
+  height: 500px;
+  max-height: 100%;
 }
 
-.conteudo-sobre h1{
-  font-family: Arial, Helvetica, sans-serif;
-  color: #fff;
+.conteudo-sobre {
+  display: grid;
+  place-content: center;
+}
+
+.conteudo-sobre p{
+  font-family: 'Poppins';
+  color: #928c87;
   font-weight: bold;
-  font-size: 4rem;
+  font-size: 20px;
+  text-align: left;
+  margin-bottom: 80px;
+  max-width: 900px;
 }
 
 .body-carrinho{
-  background-color: #eddbc393;
+  background-color: #f8f0e694;
 }
+
