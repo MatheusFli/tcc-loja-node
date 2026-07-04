@@ -51,7 +51,7 @@ header {
   display: flex;
   align-items: center;
   padding: 10px;
-  background: #f3e9dc;
+  background: #630000;
 }
 
 /* .logotipo{
@@ -68,7 +68,7 @@ header {
   font-family: 'Vartigo';
   font-size: 50px;
   padding: 10px;
-  color: rgb(0, 0, 0);
+  color: #fff;
   flex: 1;
 }
 
@@ -85,7 +85,7 @@ header {
 }
 
 .nav-links a{
-  color: rgb(0, 0, 0);
+  color: #fff;
   font-weight: bolder;
 }
 
@@ -211,7 +211,7 @@ margin-right: 20px;
 
     overflow-x: hidden;
     position: relative;
-    min-height: 70vh;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
 }
@@ -232,10 +232,10 @@ margin-right: 20px;
         radial-gradient(circle at 70% 35%, rgba(255, 118, 118, 0.14) 0%, transparent 40%);
     
     background-size: 200% 200%;
-    animation: moverAuraLogin 15s ease infinite;
+    animation: moverGradienteLogin 15s ease infinite;
 }
 
-@keyframes moverAuraLogin {
+@keyframes moverGradienteLogin {
     0% {
         background-position: 0% 50%;
     }
@@ -1323,4 +1323,59 @@ footer {
 .body-carrinho{
   background-color: #f8f0e694;
 }
+
+
+
+
+
+
+/* carrossel
+
+/* Conteiner principal */
+.carousel-container {
+    position: relative;
+    width: 900px;
+    max-width: 100%;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Linha contendo todas as imagens */
+.carousel-slide {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.7s ease-in-out; /* Efeito suave de transição */
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* Botões de navegação */
+#prevBtn, #nextBtn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.062);
+    color: white;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 20px;
+    transition: background 0.3s;
+}
+
+#prevBtn, #nextBtn:hover {
+    background-color: rgba(239, 239, 239, 0.205);
+}
+
+#prevBtn { left: 10px; }
+#nextBtn { right: 10px; }
 
