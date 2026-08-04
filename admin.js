@@ -307,3 +307,63 @@ function criarProduto() {
       carregarProdutosAdmin();
     });
 }
+
+
+
+function buscarPedido() {
+  const codigo = document.getElementById('busca-codigo').value.trim();
+  if (!codigo) {
+    carregarPedidos();
+    return;
+  }
+
+  const pedido = todosPedidos.find(p => p.id_pedido == codigo);
+  const container = document.getElementById('lista-pedidos');
+
+  if (!pedido) {
+    container.innerHTML = `
+      <div style="text-align:center; padding: 40px; color: #999;">
+        <i class="bi bi-search" style="font-size: 36px;"></i>
+        <p style="margin-top: 10px;">Pedido #${codigo} não encontrado</p>
+      </div>
+    `;
+    return;
+  }
+
+  document.querySelectorAll('.sub-tab-btn').forEach(el => el.classList.remove('active'));
+
+  const dataPedido = new Date(pedido.data).toLocaleDateString('pt-BR');
+  const itensHTML = pedido.itens.map(item => `
+    <div class="pedido-item">
+      <span>${item.nome_prod}</span>
+      <span>x${item.quantidade}</span>
+      <span>R$ ${Number(item.preco).toFixed(2)}</span>
+    </div>
+  `).join('');
+
+  container.innerHTML = `
+    <div class="pedido-card pedido-destaque">
+      <div class="pedido-header">
+        <span><strong>Pedido #${pedido.id_pedido}</strong></span>
+        <span>${pedido.nome_usuario} — ${pedido.email}</span>
+        <span>${dataPedido}</span>
+        <span class="status status-${pedido.status}">${pedido.status}</span>
+      </div>
+      <div class="pedido-itens">${itensHTML}</div>
+      <div class="pedido-total">
+        Total: <strong>R$ ${Number(pedido.total).toFixed(2)}</strong>
+      </div>
+      <div class="pedido-acoes">
+        <select id="status-${pedido.id_pedido}">
+          <option value="pendente" ${pedido.status === 'pendente' ? 'selected' : ''}>Pendente</option>
+          <option value="confirmado" ${pedido.status === 'confirmado' ? 'selected' : ''}>Confirmado</option>
+          <option value="entregue" ${pedido.status === 'entregue' ? 'selected' : ''}>Entregue</option>
+        </select>
+        <button onclick="atualizarStatus(${pedido.id_pedido})">Atualizar Status</button>
+      </div>
+      <button onclick="carregarPedidos()" class="btn-cancelar" style="margin-top:10px;">
+        <i class="bi bi-arrow-left"></i> Voltar
+      </button>
+    </div>
+  `;
+}

@@ -42,12 +42,16 @@ fetch(`${API_URL}/pedido/meus-pedidos`, {
           <span>${data_pedido}</span>
           <span class="status status-${pedido.status}">${pedido.status}</span>
         </div>
-        <div class="pedido-itens">
-          ${itensHTML}
-        </div>
+        <div class="pedido-itens">${itensHTML}</div>
         <div class="pedido-total">
           Total: <strong>R$ ${Number(pedido.total).toFixed(2)}</strong>
         </div>
+        ${pedido.status !== 'entregue' ? `
+          <div class="codigo-retirada">
+            <i class="bi bi-ticket-perforated"></i>
+            Código de retirada: <strong>#${pedido.id_pedido}</strong>
+          </div>
+        ` : ''}
       `;
 
       container.appendChild(div);

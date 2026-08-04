@@ -117,9 +117,9 @@ async function finalizarPedido() {
         return;
       }
 
-      alert("Pedido enviado com sucesso!");
-      localStorage.removeItem("carrinho");
-      carregarCarrinho();
+   localStorage.removeItem("carrinho");
+  window.location.href = `pagamento.html?pedido=${data.pedido_id}`;
+     
     })
     .catch(err => {
       console.error(err);
