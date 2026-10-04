@@ -1,5 +1,11 @@
-const { Resend } = require('resend');
-const resend = new Resend(process.env.RESEND_API_KEY);
+require('dotenv').config({ path: __dirname + '/.env' });
+const SibApiV3Sdk = require('sib-api-v3-sdk');
+
+const defaultClient = SibApiV3Sdk.ApiClient.instance;
+const apiKey = defaultClient.authentications['api-key'];
+apiKey.apiKey = process.env.BREVO_API_KEY;
+
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
 async function enviarConfirmacaoPedido(emailCliente, nomeCliente, pedido) {
   const itensHTML = pedido.itens.map(item => `
@@ -10,12 +16,12 @@ async function enviarConfirmacaoPedido(emailCliente, nomeCliente, pedido) {
     </tr>
   `).join('');
 
-  await resend.emails.send({
-    from: 'Amor Doce <onboarding@resend.dev>',
-    to: emailCliente,
+  const sendSmtpEmail = {
+    sender: { name: "Amor Doce", email: "ctt.amordoce@gmail.com" },
+    to: [{ email: emailCliente, name: nomeCliente }],
     subject: `Pedido #${pedido.id_pedido} recebido!`,
-    html: `
-      <div style="font-family: sans-serif; max-width: 600px; margin: auto;">
+    htmlContent: `
+      <div style="font-family: Poppins, sans-serif; max-width: 600px; margin: auto;">
         <h2 style="color: #c0392b;">Amor Doce</h2>
         <p>Olá, <strong>${nomeCliente}</strong>! Seu pedido foi recebido com sucesso.</p>
         <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
@@ -28,14 +34,18 @@ async function enviarConfirmacaoPedido(emailCliente, nomeCliente, pedido) {
           </thead>
           <tbody>${itensHTML}</tbody>
         </table>
-        <p><strong>Total: R$ ${Number(pedido.total).toFixed(2)}</strong></p>
+        <p style="font-size: 16px;">
+          <strong>Total: R$ ${Number(pedido.total).toFixed(2)}</strong>
+        </p>
         <p style="color: #888; font-size: 13px;">
           Status atual: <strong>${pedido.status}</strong><br>
-          Entraremos em contato em breve.
+          Entraremos em contato em breve para confirmar seu pedido.
         </p>
       </div>
     `
-  });
+  };
+
+  await apiInstance.sendTransacEmail(sendSmtpEmail);
 }
 
 module.exports = { enviarConfirmacaoPedido };

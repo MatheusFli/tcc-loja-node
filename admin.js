@@ -367,3 +367,17 @@ function buscarPedido() {
     </div>
   `;
 }
+
+
+function confirmarPagamento(id) {
+  fetch(`${API_URL}/admin/pedidos/${id}/status`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ status: 'confirmado' })
+  })
+    .then(res => res.json())
+    .then(() => {
+      carregarPedidos();
+    });
+}
