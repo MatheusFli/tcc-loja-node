@@ -17,7 +17,7 @@ async function enviarConfirmacaoPedido(emailCliente, nomeCliente, pedido) {
   `).join('');
 
   const sendSmtpEmail = {
-    sender: { name: "Amor Doce", email: "ctt.amordoce@gmail.com" },
+    sender: { name: "Amor Doce", email: "ferraiolimatheus@gmail.com" },
     to: [{ email: emailCliente, name: nomeCliente }],
     subject: `Pedido #${pedido.id_pedido} recebido!`,
     htmlContent: `
