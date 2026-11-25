@@ -154,7 +154,7 @@ function atualizarStatus(id) {
     .then(res => res.json())
     .then(data => {
       if (data.error) {
-        alert(data.error);
+        mostrarErro(data.error);
         return;
       }
 
@@ -222,7 +222,7 @@ function toggleAtivo(id, ativoAtual) {
     .then(res => res.json())
     .then(data => {
       if (data.error) {
-        alert(data.error);
+        mostrarErro(data.error);
         return;
       }
       carregarProdutosAdmin();
@@ -268,7 +268,7 @@ function salvarEdicao() {
     .then(res => res.json())
     .then(data => {
       if (data.error) {
-        alert(data.error);
+        mostrarErro(data.error);
         return;
       }
       mostrarSucesso("Produto atualizado!");
@@ -297,7 +297,7 @@ function criarProduto() {
     .then(res => res.json())
     .then(data => {
       if (data.error) {
-        alert(data.error);
+        mostrarErro(data.error);
         return;
       }
       mostrarSucesso("Produto criado!");
@@ -391,7 +391,7 @@ function confirmarPagamento(id) {
     .then(res => res.json())
     .then(data => {
       if (data.error) {
-        alert(data.error);
+        mostrarErro(data.error);
         return;
       }
 

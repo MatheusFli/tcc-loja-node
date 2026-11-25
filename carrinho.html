@@ -51,12 +51,38 @@
 
   <div class="resumo">
     <span id="total">Total: R$ 0</span>
-    <button onclick="finalizarPedido()">Finalizar Pedido</button>
+   <button onclick="abrirConfirmacao()">Finalizar Pedido</button>
   </div>
 
 </div>
 
 
+</div>
+
+<div id="modal-confirmacao" class="modal-overlay" style="display:none;">
+  <div class="modal-box">
+    <h2><i class="bi bi-bag-check"></i> Confirmar pedido</h2>
+    <p class="modal-sub">Confira os itens antes de enviar:</p>
+
+    <div id="resumo-itens"></div>
+
+    <div class="resumo-total">
+      <span>Total</span>
+      <strong id="resumo-total-valor">R$ 0.00</strong>
+    </div>
+
+    <p class="modal-aviso">
+      <i class="bi bi-info-circle"></i>
+      Depois de confirmar, você verá o QR Code do Pix e o número de retirada.
+    </p>
+
+    <div class="modal-acoes">
+      <button onclick="fecharConfirmacao()" class="btn-cancelar">Voltar</button>
+      <button onclick="enviarPedido()" id="btn-confirmar-pedido" class="btn-salvar">
+        <i class="bi bi-check-lg"></i> Confirmar pedido
+      </button>
+    </div>
+  </div>
 </div>
 <script src="toast.js"></script>
 <script  src="api.js"></script>

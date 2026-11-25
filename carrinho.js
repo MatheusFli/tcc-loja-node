@@ -81,7 +81,7 @@ function removerItem(id) {
 }
 
 
-async function finalizarPedido() {
+async function abrirConfirmacao() {
   const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
   if (carrinho.length === 0) {
@@ -89,15 +89,42 @@ async function finalizarPedido() {
     return;
   }
 
-  const sessao = await fetch(`${API_URL}/me`, {
-    credentials: "include"
-  });
+  const sessao = await fetch(`${API_URL}/me`, { credentials: "include" });
 
   if (!sessao.ok) {
     mostrarErro("Você precisa estar logado para finalizar o pedido!");
     setTimeout(() => { window.location.href = "login.html"; }, 1500);
-return;
+    return;
   }
+
+  let total = 0;
+
+  const itensHTML = carrinho.map(item => {
+    const subtotal = item.preco * item.qtd;
+    total += subtotal;
+    return `
+      <div class="resumo-item">
+        <span>${item.qtd}x ${item.nome}</span>
+        <span>R$ ${subtotal.toFixed(2)}</span>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById("resumo-itens").innerHTML = itensHTML;
+  document.getElementById("resumo-total-valor").innerText = `R$ ${total.toFixed(2)}`;
+  document.getElementById("modal-confirmacao").style.display = "flex";
+}
+
+function fecharConfirmacao() {
+  document.getElementById("modal-confirmacao").style.display = "none";
+}
+
+function enviarPedido() {
+  const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+  const btn = document.getElementById("btn-confirmar-pedido");
+
+  btn.disabled = true;
+  btn.innerText = "Enviando...";
 
   const itensLimpos = carrinho.map(item => ({
     id: item.id,
@@ -113,19 +140,21 @@ return;
     .then(res => res.json())
     .then(data => {
       if (data.error) {
-        alert(data.error);
+        mostrarErro(data.error);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check-lg"></i> Confirmar pedido';
+        fecharConfirmacao();
         return;
       }
 
-   localStorage.removeItem("carrinho");
-  window.location.href = `pagamento.html?pedido=${data.pedido_id}`;
-     
+      localStorage.removeItem("carrinho");
+      window.location.href = `pagamento.html?pedido=${data.pedido_id}`;
     })
-    .catch(err => {
-      console.error(err);
+    .catch(() => {
       mostrarErro("Erro ao enviar pedido");
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-check-lg"></i> Confirmar pedido';
     });
 }
-
 
 carregarCarrinho();
