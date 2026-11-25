@@ -4,12 +4,12 @@ function cadastrar() {
   const senha = document.getElementById("senha").value.trim();
 
   if (!nome || !email || !senha) {
-    alert("Preencha todos os campos");
+    mostrarErro("Preencha todos os campos");
     return;
   }
 
   if (senha.length < 6) {
-    alert("A senha deve ter pelo menos 6 caracteres");
+    mostrarErro("A senha deve ter pelo menos 6 caracteres");
     return;
   }
 
@@ -26,10 +26,10 @@ function cadastrar() {
         return;
       }
 
-      alert("Cadastrado com sucesso!");
+      mostrarSucesso("Cadastrado com sucesso!");
       window.location.href = "login.html";
     })
     .catch(() => {
-      alert("Erro ao conectar com o servidor. Tente novamente.");
+      mostrarErro("Erro ao conectar com o servidor. Tente novamente.");
     });
 }

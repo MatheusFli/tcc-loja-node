@@ -3,7 +3,7 @@ function login() {
   const senha = document.getElementById("senha").value.trim();
 
   if (!email || !senha) {
-    alert("Preencha email e senha");
+    mostrarErro("Preencha email e senha");
     return;
   }
  fetch(`${API_URL}/login`, {
@@ -24,7 +24,8 @@ function login() {
         return;
       }
 
-      alert("Login feito com sucesso!");
+      mostrarSucesso("Login feito com sucesso!");
+      setTimeout(() => { window.location.href = "index.html"; }, 800);
 
      
       localStorage.setItem("usuario", JSON.stringify(data.usuario));
@@ -34,6 +35,6 @@ function login() {
     })
     .catch(err => {
       console.log(err);
-      alert("Erro no login");
+      mostrarErro("Erro no login");
     });
 }

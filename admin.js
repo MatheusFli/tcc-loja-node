@@ -67,7 +67,7 @@ function carregarDashboard() {
 
 
 function carregarPedidos() {
- fetch(`${API_URL}/admin/pedidos`, { credentials: "include" })
+  fetch(`${API_URL}/admin/pedidos`, { credentials: "include" })
     .then(res => res.json())
     .then(data => {
       todosPedidos = data;
@@ -128,6 +128,7 @@ function renderizarPedidos(status) {
         Total: <strong>R$ ${Number(pedido.total).toFixed(2)}</strong>
       </div>
       <div class="pedido-acoes">
+        ${botaoPagamento(pedido)}
         <select id="status-${pedido.id_pedido}">
           <option value="pendente" ${pedido.status === 'pendente' ? 'selected' : ''}>Pendente</option>
           <option value="confirmado" ${pedido.status === 'confirmado' ? 'selected' : ''}>Confirmado</option>
@@ -164,7 +165,7 @@ function atualizarStatus(id) {
           renderizarPedidos(filtroAtual);
         });
     })
-    .catch(() => alert("Erro ao atualizar status"));
+    .catch(() => mostrarErro("Erro ao atualizar status"));
 }
 
 
@@ -254,7 +255,7 @@ function salvarEdicao() {
   const estoque = Number(document.getElementById("edit-estoque").value);
 
   if (!nome_prod || !descricao || !preco || estoque === '') {
-    alert("Preencha todos os campos");
+    mostrarErro("Preencha todos os campos");
     return;
   }
 
@@ -270,7 +271,7 @@ function salvarEdicao() {
         alert(data.error);
         return;
       }
-      alert("Produto atualizado!");
+      mostrarSucesso("Produto atualizado!");
       fecharModal();
       carregarProdutosAdmin();
     });
@@ -283,11 +284,11 @@ function criarProduto() {
   const estoque = Number(document.getElementById("prod-estoque").value);
 
   if (!nome_prod || !descricao || !preco || estoque === '') {
-    alert("Preencha todos os campos");
+    mostrarErro("Preencha todos os campos");
     return;
   }
 
- fetch(`${API_URL}/produtos`, {
+  fetch(`${API_URL}/produtos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -299,7 +300,7 @@ function criarProduto() {
         alert(data.error);
         return;
       }
-      alert("Produto criado!");
+      mostrarSucesso("Produto criado!");
       document.getElementById("prod-nome").value = "";
       document.getElementById("prod-descricao").value = "";
       document.getElementById("prod-preco").value = "";
@@ -307,7 +308,6 @@ function criarProduto() {
       carregarProdutosAdmin();
     });
 }
-
 
 
 function buscarPedido() {
@@ -354,6 +354,7 @@ function buscarPedido() {
         Total: <strong>R$ ${Number(pedido.total).toFixed(2)}</strong>
       </div>
       <div class="pedido-acoes">
+        ${botaoPagamento(pedido)}
         <select id="status-${pedido.id_pedido}">
           <option value="pendente" ${pedido.status === 'pendente' ? 'selected' : ''}>Pendente</option>
           <option value="confirmado" ${pedido.status === 'confirmado' ? 'selected' : ''}>Confirmado</option>
@@ -369,15 +370,42 @@ function buscarPedido() {
 }
 
 
+function botaoPagamento(pedido) {
+  if (pedido.pago) {
+    return `<span class="badge-pago"><i class="bi bi-check-circle"></i> Pago</span>`;
+  }
+  return `
+    <button onclick="confirmarPagamento(${pedido.id_pedido})" class="btn-pagamento">
+      <i class="bi bi-cash-coin"></i> Confirmar pagamento
+    </button>
+  `;
+}
+
 function confirmarPagamento(id) {
-  fetch(`${API_URL}/admin/pedidos/${id}/status`, {
+  if (!confirm(`Confirmar que o Pix do pedido #${id} foi recebido?`)) return;
+
+  fetch(`${API_URL}/admin/pedidos/${id}/pagamento`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ status: 'confirmado' })
+    credentials: "include"
   })
     .then(res => res.json())
-    .then(() => {
-      carregarPedidos();
-    });
+    .then(data => {
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
+
+      fetch(`${API_URL}/admin/pedidos`, { credentials: "include" })
+        .then(res => res.json())
+        .then(pedidos => {
+          todosPedidos = pedidos;
+          const busca = document.getElementById('busca-codigo').value.trim();
+          if (busca) {
+            buscarPedido();
+          } else {
+            renderizarPedidos(filtroAtual);
+          }
+        });
+    })
+    .catch(() => mostrarErro("Erro ao confirmar pagamento"));
 }

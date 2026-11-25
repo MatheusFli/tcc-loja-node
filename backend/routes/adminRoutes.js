@@ -9,5 +9,5 @@ router.get('/admin/produtos', apenasAdmin, controller.getTodosProdutosAdmin);
 router.get('/admin/produtos/:id', apenasAdmin, controller.getProdutoById);
 router.put('/admin/produtos/:id/ativo', apenasAdmin, controller.toggleAtivoProduto); 
 router.get('/admin/dashboard', apenasAdmin, controller.getDashboard);
-
+router.put('/admin/pedidos/:id/pagamento', apenasAdmin, controller.confirmarPagamento);
 module.exports = router;

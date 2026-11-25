@@ -85,7 +85,7 @@ async function finalizarPedido() {
   const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
   if (carrinho.length === 0) {
-    alert("Carrinho vazio!");
+    mostrarErro("Carrinho vazio!");
     return;
   }
 
@@ -94,9 +94,9 @@ async function finalizarPedido() {
   });
 
   if (!sessao.ok) {
-    alert("Você precisa estar logado para finalizar o pedido!");
-    window.location.href = "login.html";
-    return;
+    mostrarErro("Você precisa estar logado para finalizar o pedido!");
+    setTimeout(() => { window.location.href = "login.html"; }, 1500);
+return;
   }
 
   const itensLimpos = carrinho.map(item => ({
@@ -123,7 +123,7 @@ async function finalizarPedido() {
     })
     .catch(err => {
       console.error(err);
-      alert("Erro ao enviar pedido");
+      mostrarErro("Erro ao enviar pedido");
     });
 }
 

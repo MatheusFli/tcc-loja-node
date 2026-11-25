@@ -8,6 +8,7 @@ exports.getTodosPedidos = (req, res) => {
       p.total,
       p.data,
       p.status,
+      p.pago,
       u.nome AS nome_usuario,
       u.email,
       ip.quantidade,
@@ -22,7 +23,7 @@ exports.getTodosPedidos = (req, res) => {
 
   db.query(sql, (err, result) => {
     if (err) {
-      console.error(err);
+      console.error(err.message);
       return res.status(500).json({ error: 'Erro ao buscar pedidos' });
     }
 
@@ -34,6 +35,7 @@ exports.getTodosPedidos = (req, res) => {
           total: row.total,
           data: row.data,
           status: row.status,
+          pago: row.pago,
           nome_usuario: row.nome_usuario,
           email: row.email,
           itens: []
@@ -66,7 +68,7 @@ exports.atualizarStatus = (req, res) => {
     [status, id],
     (err, result) => {
       if (err) {
-        console.error(err);
+        console.error(err.message);
         return res.status(500).json({ error: 'Erro ao atualizar status' });
       }
       if (result.affectedRows === 0) {
@@ -78,11 +80,32 @@ exports.atualizarStatus = (req, res) => {
 };
 
 
+// PUT confirmar pagamento do pedido
+exports.confirmarPagamento = (req, res) => {
+  const { id } = req.params;
+
+  db.query(
+    "UPDATE pedido SET pago = 1, status = 'confirmado' WHERE id_pedido = ? AND pago = 0",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).json({ error: 'Erro ao confirmar pagamento' });
+      }
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Pedido não encontrado ou já pago' });
+      }
+      res.json({ message: 'Pagamento confirmado!' });
+    }
+  );
+};
+
+
 // GET todos os produtos (admin vê ativos e inativos)
 exports.getTodosProdutosAdmin = (req, res) => {
   db.query('SELECT * FROM produto ORDER BY ativo DESC, nome_prod ASC', (err, result) => {
     if (err) {
-      console.error(err);
+      console.error(err.message);
       return res.status(500).json({ error: 'Erro ao buscar produtos' });
     }
     res.json(result);
@@ -96,7 +119,7 @@ exports.getProdutoById = (req, res) => {
 
   db.query('SELECT * FROM produto WHERE id_prod = ?', [id], (err, result) => {
     if (err) {
-      console.error(err);
+      console.error(err.message);
       return res.status(500).json({ error: 'Erro ao buscar produto' });
     }
     if (result.length === 0) {
@@ -105,8 +128,6 @@ exports.getProdutoById = (req, res) => {
     res.json(result[0]);
   });
 };
-
-
 
 
 exports.toggleAtivoProduto = (req, res) => {
@@ -118,7 +139,7 @@ exports.toggleAtivoProduto = (req, res) => {
     [ativo, id],
     (err, result) => {
       if (err) {
-        console.error(err);
+        console.error(err.message);
         return res.status(500).json({ error: 'Erro ao atualizar produto' });
       }
       if (result.affectedRows === 0) {
@@ -150,13 +171,13 @@ exports.getDashboard = (req, res) => {
 
   db.query(sqlPedidos, (err, pedidosResult) => {
     if (err) {
-      console.error(err);
+      console.error(err.message);
       return res.status(500).json({ error: 'Erro ao buscar dados do dashboard' });
     }
 
     db.query(sqlEstoqueBaixo, (err, estoqueResult) => {
       if (err) {
-        console.error(err);
+        console.error(err.message);
         return res.status(500).json({ error: 'Erro ao buscar estoque' });
       }
 

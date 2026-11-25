@@ -72,5 +72,5 @@ function adicionarCarrinho(id, nome, preco) {
   }
 
   localStorage.setItem("carrinho", JSON.stringify(carrinho));
-  alert(`"${nome}" adicionado ao carrinho!`);
+  mostrarSucesso(`"${nome}" adicionado ao carrinho!`);
 }
