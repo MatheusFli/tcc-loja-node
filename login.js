@@ -20,7 +20,7 @@ function login() {
     .then(res => res.json())
     .then(data => {
       if (data.error) {
-        alert(data.error);
+        mostrarErro(data.error);
         return;
       }
 
